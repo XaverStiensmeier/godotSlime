@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://bf15i23tr2jy4"]
+
+[ext_resource type="Script" path="res://enemie.gd" id="1_8ivoa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xeury"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_vga0b"]
+radius = 183.068
+
+[node name="Basic_enemy" type="CharacterBody2D"]
+collision_layer = 130
+collision_mask = 130
+script = ExtResource("1_8ivoa")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xeury")
+
+[node name="PathFollow2D" type="Polygon2D" parent="."]
+offset = Vector2(1.42, 2.92)
+polygon = PackedVector2Array(-9, -6, -7, -10, 4, -7, 7, -4, 5, 3, -4, 2)
+
+[node name="_Timer_51581" type="Timer" parent="PathFollow2D"]
+wait_time = 0.2
+one_shot = true
+
+[node name="Player_detection" type="Area2D" parent="."]
+collision_layer = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player_detection"]
+shape = SubResource("CircleShape2D_vga0b")
+
+[node name="Marker2D" type="Marker2D" parent="."]
+
+[node name="Aim" type="Polygon2D" parent="Marker2D"]
+visible = false
+color = Color(0.917647, 0, 0.427451, 1)
+polygon = PackedVector2Array(12, 2, 12, -4, 18, -10, 19, 1, 15, 11)
+
+[node name="Attack" type="Polygon2D" parent="Marker2D"]
+visible = false
+color = Color(0.701961, 0.00392157, 0.286275, 1)
+polygon = PackedVector2Array(11, -6, 18, -18, 27, -21, 30, -7, 29, 13, 23, 24, 15, 16, 10, 5)
+
+[node name="Attack_time" type="Timer" parent="Marker2D"]
+wait_time = 0.5
+one_shot = true
+
+[node name="Attack_recharge" type="Timer" parent="Marker2D"]
+
+[connection signal="body_entered" from="Player_detection" to="." method="_on_player_detection_body_entered"]
+[connection signal="body_exited" from="Player_detection" to="." method="_on_player_detection_body_exited"]
+[connection signal="timeout" from="Marker2D/Attack_time" to="." method="_on_attack_time_timeout"]
+[connection signal="timeout" from="Marker2D/Attack_recharge" to="." method="_on_attack_recharge_timeout"]
