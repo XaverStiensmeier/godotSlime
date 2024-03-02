@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://yl2jqtx0lwlt"]
+
+[ext_resource type="Script" path="res://slime.gd" id="1_nu8mc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l5ivg"]
+size = Vector2(50, 576)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q2is"]
+size = Vector2(1001, 50)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4jkgc"]
+size = Vector2(32, 32)
+
+[node name="room" type="Node2D"]
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+color = Color(0.470588, 0.470588, 0.470588, 1)
+polygon = PackedVector2Array(0, 0, 1024, 0, 1024, 576, 0, 576)
+
+[node name="walls" type="StaticBody2D" parent="."]
+
+[node name="Vertical_wall_l" type="CollisionShape2D" parent="walls"]
+position = Vector2(25, 289)
+shape = SubResource("RectangleShape2D_l5ivg")
+
+[node name="Vertical_wall_r" type="CollisionShape2D" parent="walls"]
+position = Vector2(999, 289)
+shape = SubResource("RectangleShape2D_l5ivg")
+
+[node name="Horizontal_wall_u" type="CollisionShape2D" parent="walls"]
+position = Vector2(523.5, 25)
+shape = SubResource("RectangleShape2D_0q2is")
+
+[node name="Horizontal_wall_d" type="CollisionShape2D" parent="walls"]
+position = Vector2(512, 551)
+shape = SubResource("RectangleShape2D_0q2is")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+position = Vector2(484, 251)
+script = ExtResource("1_nu8mc")
+
+[node name="Polygon2D" type="Polygon2D" parent="CharacterBody2D"]
+position = Vector2(621, 301)
+color = Color(0.364706, 0.564706, 0.168627, 1)
+polygon = PackedVector2Array(-637, -317, -605, -317, -605, -285, -637, -285)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+shape = SubResource("RectangleShape2D_4jkgc")
