@@ -13,7 +13,7 @@ radius = 13.0
 position = Vector2(289, 164)
 script = ExtResource("1_70r3f")
 
-[node name="player_sprite" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="."]
 unique_name_in_owner = true
 texture = ExtResource("2_1lris")
 hframes = 4
@@ -22,13 +22,12 @@ hframes = 4
 position = Vector2(0, 6.5)
 shape = SubResource("CircleShape2D_jrp13")
 
-[node name="Eat_detection" type="Area2D" parent="."]
+[node name="EatDetectionArea2D" type="Area2D" parent="."]
 collision_layer = 128
 collision_mask = 128
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Eat_detection"]
+[node name="EatDetectionCollisionShape2D" type="CollisionShape2D" parent="EatDetectionArea2D"]
 position = Vector2(0, 7)
 shape = SubResource("CircleShape2D_25xwk")
 
-[connection signal="area_entered" from="Eat_detection" to="." method="_on_eat_detection_area_entered"]
-[connection signal="body_entered" from="Eat_detection" to="." method="_on_eat_detection_body_entered"]
+[connection signal="body_entered" from="EatDetectionArea2D" to="." method="_on_eat_detection_area_2d_body_entered"]
