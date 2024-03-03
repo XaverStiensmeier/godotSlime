@@ -19,7 +19,7 @@ func start_level():
 	basic_enemy_count = randi_range(2,5)
 	for e in basic_enemy_count:
 		var new_enemy = basic_enemy.instantiate()
-		set_deferred("add_child", new_enemy)
+		call_deferred("add_child", new_enemy)
 		new_enemy.global_position = Vector2(randi_range(50,526),randi_range(50,274))
 		all_enemies.append(new_enemy)
 
