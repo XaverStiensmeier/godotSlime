@@ -26,8 +26,6 @@ func eat(value: int) -> void:
 	player_sprite.frame += value 
 	
 	
-func _on_eat_detection_area_entered(area: Area2D) -> void:
-	area.eat(self)
 
 
 func _on_eat_detection_body_entered(body: Node2D) -> void:

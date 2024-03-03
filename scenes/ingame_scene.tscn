@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scenes/ingame_scene.gd" id="1_objyc"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="1_y6ebv"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="3_8o178"]
-[ext_resource type="PackedScene" uid="uid://yl2jqtx0lwlt" path="res://scenes/level.tscn" id="4_6mden"]
+[ext_resource type="PackedScene" uid="uid://b6fwc08t84ekc" path="res://scenes/room_generation.tscn" id="4_aqaft"]
 
 [node name="IngameScene" type="Node2D"]
 script = ExtResource("1_objyc")
@@ -19,4 +19,4 @@ unique_name_in_owner = true
 process_mode = 2
 visible = false
 
-[node name="level" parent="." instance=ExtResource("4_6mden")]
+[node name="room_generation" parent="." instance=ExtResource("4_aqaft")]

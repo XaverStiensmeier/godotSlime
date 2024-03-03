@@ -1,21 +1,25 @@
-[gd_scene load_steps=7 format=3 uid="uid://yl2jqtx0lwlt"]
+[gd_scene load_steps=8 format=3 uid="uid://yl2jqtx0lwlt"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_xqd7o"]
 [ext_resource type="PackedScene" uid="uid://bf15i23tr2jy4" path="res://scenes/enemy.tscn" id="2_b66pv"]
 [ext_resource type="PackedScene" uid="uid://dhr1crxit066" path="res://scenes/player.tscn" id="3_3kj0a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l5ivg"]
-size = Vector2(50, 224)
+size = Vector2(25, 324)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0q2is"]
-size = Vector2(578, 50)
+size = Vector2(576, 25)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_y4c5o"]
 size = Vector2(20, 110)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_imc7q"]
+size = Vector2(110, 20)
+
 [node name="level" type="Node2D"]
 script = ExtResource("1_xqd7o")
 enemy = ExtResource("2_b66pv")
+player = ExtResource("3_3kj0a")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 position = Vector2(-64, -35)
@@ -27,46 +31,73 @@ collision_layer = 3
 collision_mask = 3
 
 [node name="Vertical_wall_l" type="CollisionShape2D" parent="walls"]
-position = Vector2(25, 162)
+position = Vector2(13, 162)
 shape = SubResource("RectangleShape2D_l5ivg")
 
 [node name="Vertical_wall_r" type="CollisionShape2D" parent="walls"]
-position = Vector2(551, 162)
+position = Vector2(563, 162)
 shape = SubResource("RectangleShape2D_l5ivg")
 
 [node name="Horizontal_wall_u" type="CollisionShape2D" parent="walls"]
-position = Vector2(289, 25)
+position = Vector2(288, 13)
 shape = SubResource("RectangleShape2D_0q2is")
 
 [node name="Horizontal_wall_d" type="CollisionShape2D" parent="walls"]
-position = Vector2(287, 299)
+position = Vector2(288, 311)
 shape = SubResource("RectangleShape2D_0q2is")
-
-[node name="player" parent="." instance=ExtResource("3_3kj0a")]
 
 [node name="doors" type="Marker2D" parent="."]
 unique_name_in_owner = true
 visible = false
 
 [node name="door_left" type="Area2D" parent="doors"]
-position = Vector2(21, -118)
+unique_name_in_owner = true
+visible = false
+position = Vector2(-34, -111)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="doors/door_left"]
 position = Vector2(60, 273)
 shape = SubResource("RectangleShape2D_y4c5o")
 
 [node name="Polygon2D" type="Polygon2D" parent="doors/door_left"]
-polygon = PackedVector2Array(47, 217, 70, 218, 67, 325, 45, 332)
+polygon = PackedVector2Array(50, 218, 70, 218, 70, 328, 50, 328)
 
 [node name="door_right" type="Area2D" parent="doors"]
-position = Vector2(441, -122)
+unique_name_in_owner = true
+visible = false
+position = Vector2(490, -111)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="doors/door_right"]
 position = Vector2(60, 273)
 shape = SubResource("RectangleShape2D_y4c5o")
 
 [node name="Polygon2D" type="Polygon2D" parent="doors/door_right"]
-polygon = PackedVector2Array(47, 217, 70, 218, 67, 325, 45, 332)
+position = Vector2(6, 0)
+polygon = PackedVector2Array(44, 218, 64, 218, 64, 328, 44, 328)
+
+[node name="door_up" type="Area2D" parent="doors"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(288, 23)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="doors/door_up"]
+shape = SubResource("RectangleShape2D_imc7q")
+
+[node name="Polygon2D" type="Polygon2D" parent="doors/door_up"]
+polygon = PackedVector2Array(-55, -10, 55, -10, 55, 10, -55, 10)
+
+[node name="door_down" type="Area2D" parent="doors"]
+unique_name_in_owner = true
+visible = false
+position = Vector2(288, 298)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="doors/door_down"]
+shape = SubResource("RectangleShape2D_imc7q")
+
+[node name="Polygon2D" type="Polygon2D" parent="doors/door_down"]
+polygon = PackedVector2Array(-55, -10, 55, -10, 55, 10, -55, 10)
 
 [connection signal="body_entered" from="doors/door_left" to="." method="_on_door_left_body_entered"]
 [connection signal="body_entered" from="doors/door_right" to="." method="_on_door_right_body_entered"]
+[connection signal="body_entered" from="doors/door_up" to="." method="_on_door_up_body_entered"]
+[connection signal="body_entered" from="doors/door_down" to="." method="_on_door_down_body_entered"]

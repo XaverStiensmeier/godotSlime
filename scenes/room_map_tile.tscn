@@ -1,0 +1,4 @@
+[gd_scene format=3 uid="uid://c6n2urnyv0tu5"]
+
+[node name="room_map_tile" type="Polygon2D"]
+polygon = PackedVector2Array(6, 6, -6, 6, -6, -6, 6, -6)
