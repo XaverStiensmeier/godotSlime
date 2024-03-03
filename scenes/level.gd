@@ -1,5 +1,8 @@
 extends Node2D
 
+signal gameover
+signal health_changed(health: float)
+
 @export var enemy: PackedScene
 
 
@@ -52,3 +55,10 @@ func _on_door_left_body_entered(body) -> void:
 		start_level()
 		doors.hide()
 		cleared = false
+
+func on_player_health_changed(health: float) -> void:
+	health_changed.emit(health)
+
+
+func game_over() -> void:
+	gameover.emit()

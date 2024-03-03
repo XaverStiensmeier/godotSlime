@@ -11,6 +11,8 @@ extends CharacterBody2D
 @export var circle_min_distance := 80
 @export var circle_max_distance := 120
 @export var change_rotation_timer := 2 ## after change_rotation_timer in seconds, rotation is changed when circling
+@export var damage_per_attack := 25.0
+@export var eat_value := 25.0
 
 @onready var attack_timer: Timer = %Attack_timer
 @onready var attack_polygon: Polygon2D = %Attack_polygon
@@ -81,14 +83,16 @@ func state_machine(delta) -> void:
 	move_and_slide()
 
 
-func eat(player: Node2D) -> void:
+func try_to_eat() -> float:
+	# If enemy is currently not chasing or in attack state, the player can eat the enemy (enemy is removed from the game)
+	# and we return the eat_value of the enemy to the player
 	if current_state not in [STATES.chase, STATES.attack]:
-		if player.has_method("eat"):
-			player.eat(1)
-			queue_free()
-
+		queue_free()
 		## TESTIN PERPUSES tells the room manager i dont exist anymore
-			get_parent().delete_me(self)
+		get_parent().delete_me(self)
+		return eat_value
+	# else we return 0 and the enemy remains in the game
+	return 0.0
 
 
 func attack() -> void:
