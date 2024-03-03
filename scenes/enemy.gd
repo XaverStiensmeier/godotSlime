@@ -1,14 +1,20 @@
 extends CharacterBody2D
 
-@onready var atk_time = $Marker2D/Attack_time
-var player
+@export var speed := 100.0
 
-const SPEED = 100.0
+@onready var attack_timer: Timer = %Attack_timer
+@onready var attack_polygon: Polygon2D = %Attack_polygon
+@onready var aim_polygon: Polygon2D = %Aim_polygon
+@onready var attack_recharge_timer: Timer = %Attack_recharge_timer
+
+
+var player: Node2D
 var direction:Vector2 ## Normalized moving direction
 var new_direction:Vector2 ## For smoother direction changing
-var attack_ready:bool = true
-
+var attack_ready := true
 var current_state = STATES.idle
+
+
 enum STATES {
 	idle,
 	chase,
@@ -17,10 +23,12 @@ enum STATES {
 	attack
 }
 
-func _physics_process(delta):
+
+func _physics_process(delta) -> void:
 	state_machine()
 
-func state_machine():
+
+func state_machine() -> void:
 	match current_state:
 		STATES.idle:
 			new_direction = Vector2.ZERO
@@ -47,35 +55,35 @@ func state_machine():
 			if attack_ready:
 				current_state = STATES.chase
 				
-
-
 		STATES.attack:
 			new_direction = Vector2.ZERO
-			if atk_time.is_stopped(): ## Can call if there is no attack in action
+			if attack_timer.is_stopped(): ## Can call if there is no attack in action
 				attack()
 
 	direction = direction.lerp(new_direction,0.1)
-	velocity = direction * SPEED
+	velocity = direction * speed
 	move_and_slide()
  
-func eat(player):
+
+func eat(player: Node2D) -> void:
 	if current_state not in [STATES.chase, STATES.attack]:
-		player.eat(1)
-		queue_free()
+		if player.has_method("eat"):
+			player.eat(1)
+			queue_free()
 		
 		## TESTIN PERPUSES tells the room manager i dont exist anymore
-		get_parent().delete_me(self)
+			get_parent().delete_me(self)
 
-func attack():
+
+func attack() -> void:
 	## attack indicator shananigans
-	$Marker2D/Aim.rotation = global_position.direction_to(player.global_position).angle()
-	$Marker2D/Attack.rotation = $Marker2D/Aim.rotation
-	$Marker2D/Aim.show()
-	atk_time.start(.5) ## for how long attack indicator is shown before attack
+	aim_polygon.rotation = global_position.direction_to(player.global_position).angle()
+	attack_polygon.rotation = aim_polygon.rotation
+	aim_polygon.show()
+	attack_timer.start(.5) ## for how long attack indicator is shown before attack
 
 
-
-func _on_player_detection_body_entered(body):
+func _on_player_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and player == null:
 		current_state = STATES.chase
 		player = body
@@ -86,18 +94,19 @@ func _on_player_detection_body_entered(body):
 		#current_state = STATES.idle
 		#player = null
 
-func _on_attack_time_timeout():
+
+func _on_attack_timer_timeout() -> void:
 	## some more attack shananigans
 	if attack_ready: ## shows where attack will be placed
 		attack_ready = false
-		$Marker2D/Attack.show()
-		atk_time.start(.1) ## actual attack slash duration
+		attack_polygon.show()
+		attack_timer.start(.1) ## actual attack slash duration
 	elif not attack_ready: ## placed attack
 		current_state = STATES.circle
-		$Marker2D/Attack.hide()
-		$Marker2D/Aim.hide()
-		$Marker2D/Attack_recharge.start(4) ## cool down till next attack
+		attack_polygon.hide()
+		aim_polygon.hide()
+		attack_recharge_timer.start(4) ## cool down till next attack
 
 
-func _on_attack_recharge_timeout():
+func _on_attack_recharge_timeout() -> void:
 	attack_ready = true

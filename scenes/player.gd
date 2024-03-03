@@ -1,14 +1,17 @@
 extends CharacterBody2D
 
+
 var SPEED:int = 300
 var health:int = 100
 
-@onready var sprite:Sprite2D = $Slime_sprite
 
-func _physics_process(delta):
+@onready var player_sprite: Sprite2D = %player_sprite
+
+
+func _physics_process(delta: float) -> void:
 	# Get the input direction and handle the movement/deceleration.
 	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_vector("ui_left", "ui_right","ui_up", "ui_down")
+	var direction = Input.get_vector("move_left", "move_right","move_up", "move_down")
 	if direction.length() != 0:
 		direction = direction.normalized()
 		velocity = direction * SPEED
@@ -18,13 +21,13 @@ func _physics_process(delta):
 	move_and_slide()
 	
 
-
-func eat(value):
-	sprite.frame += value 
+func eat(value: int) -> void:
+	player_sprite.frame += value 
 	
-func _on_eat_detection_area_entered(area):
+	
+func _on_eat_detection_area_entered(area: Area2D) -> void:
 	area.eat(self)
 
 
-func _on_eat_detection_body_entered(body):
+func _on_eat_detection_body_entered(body: Node2D) -> void:
 	body.eat(self)

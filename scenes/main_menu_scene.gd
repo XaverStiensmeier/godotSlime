@@ -3,14 +3,17 @@ extends Node2D
 @export var game_scene:PackedScene
 @export var settings_scene:PackedScene
 
+
 @onready var overlay := %FadeOverlay
 @onready var continue_button := %ContinueButton
 @onready var new_game_button := %NewGameButton
 @onready var settings_button := %SettingsButton
 @onready var exit_button := %ExitButton
 
-var next_scene = game_scene
-var new_game = true
+
+var next_scene := game_scene
+var new_game := true
+
 
 func _ready() -> void:
 	overlay.visible = true
@@ -30,22 +33,27 @@ func _ready() -> void:
 	else:
 		new_game_button.grab_focus()
 
+
 func _on_settings_button_pressed() -> void:
 	new_game = false
 	next_scene = settings_scene
 	overlay.fade_out()
 	
+	
 func _on_play_button_pressed() -> void:
 	next_scene = game_scene
 	overlay.fade_out()
+	
 	
 func _on_continue_button_pressed() -> void:
 	new_game = false
 	next_scene = game_scene
 	overlay.fade_out()
 
+
 func _on_exit_button_pressed() -> void:
 	get_tree().quit()
+
 
 func _on_fade_overlay_on_complete_fade_out() -> void:
 	if new_game and SaveGame.has_save():

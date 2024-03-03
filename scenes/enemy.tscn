@@ -31,23 +31,27 @@ shape = SubResource("CircleShape2D_vga0b")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 
-[node name="Aim" type="Polygon2D" parent="Marker2D"]
+[node name="Aim_polygon" type="Polygon2D" parent="Marker2D"]
+unique_name_in_owner = true
 visible = false
 color = Color(0.917647, 0, 0.427451, 1)
 polygon = PackedVector2Array(12, 2, 12, -4, 18, -10, 19, 1, 15, 11)
 
-[node name="Attack" type="Polygon2D" parent="Marker2D"]
+[node name="Attack_polygon" type="Polygon2D" parent="Marker2D"]
+unique_name_in_owner = true
 visible = false
 color = Color(0.701961, 0.00392157, 0.286275, 1)
 polygon = PackedVector2Array(11, -6, 18, -18, 27, -21, 30, -7, 29, 13, 23, 24, 15, 16, 10, 5)
 
-[node name="Attack_time" type="Timer" parent="Marker2D"]
+[node name="Attack_timer" type="Timer" parent="Marker2D"]
+unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
-[node name="Attack_recharge" type="Timer" parent="Marker2D"]
+[node name="Attack_recharge_timer" type="Timer" parent="Marker2D"]
+unique_name_in_owner = true
 
 [connection signal="body_entered" from="Player_detection" to="." method="_on_player_detection_body_entered"]
 [connection signal="body_exited" from="Player_detection" to="." method="_on_player_detection_body_exited"]
-[connection signal="timeout" from="Marker2D/Attack_time" to="." method="_on_attack_time_timeout"]
-[connection signal="timeout" from="Marker2D/Attack_recharge" to="." method="_on_attack_recharge_timeout"]
+[connection signal="timeout" from="Marker2D/Attack_timer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="Marker2D/Attack_recharge_timer" to="." method="_on_attack_recharge_timeout"]
