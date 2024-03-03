@@ -26,6 +26,7 @@ var current_state = STATES.idle
 var rng := RandomNumberGenerator.new()
 var change_rotation := 0.0
 var rotate_direction := 1
+var change_location := 1
 
 enum STATES {
 	idle,
@@ -55,6 +56,7 @@ func state_machine(delta) -> void:
 				current_state = STATES.chase
 
 		STATES.circle:
+			print(player.global_position.direction_to(global_position))
 			if global_position.distance_to(player.global_position) < circle_min_distance:
 				new_direction = player.global_position.direction_to(global_position)
 			elif global_position.distance_to(player.global_position) > circle_max_distance:
@@ -64,7 +66,8 @@ func state_machine(delta) -> void:
 				if change_rotation >= 1:
 					change_rotation = 0
 					rotate_direction *= -1
-				direction = (player.global_position.direction_to(global_position)).orthogonal()*rotate_direction
+				new_direction = player.global_position.direction_to(global_position).orthogonal()*rotate_direction
+				print(new_direction)
 			if attack_ready:
 				current_state = STATES.chase
 

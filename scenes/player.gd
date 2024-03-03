@@ -20,12 +20,12 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 
 	move_and_slide()
-	
+
 
 func eat(value: int) -> void:
-	player_sprite.frame += value 
-	
-	
+	player_sprite.frame += value
+
+
 func _on_eat_detection_area_entered(area: Area2D) -> void:
 	area.eat(self)
 
