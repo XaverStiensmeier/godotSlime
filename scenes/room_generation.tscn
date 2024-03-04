@@ -19,3 +19,6 @@ position = Vector2(202, 165)
 script = ExtResource("4_gwepn")
 map_tile = ExtResource("2_mmwlw")
 boss_map_tile = ExtResource("5_22c22")
+
+[connection signal="gameover" from="." to="." method="_on_gameover"]
+[connection signal="health_changed" from="." to="." method="_on_health_changed"]

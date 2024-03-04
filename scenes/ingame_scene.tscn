@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3 uid="uid://cik30de5gaaah"]
+[gd_scene load_steps=7 format=3 uid="uid://cik30de5gaaah"]
 
 [ext_resource type="Script" path="res://scenes/ingame_scene.gd" id="1_objyc"]
 [ext_resource type="PackedScene" uid="uid://bkk87o2ooo6at" path="res://ui/overlays/fade_overlay.tscn" id="1_y6ebv"]
 [ext_resource type="PackedScene" uid="uid://jyv4g54adkmo" path="res://ui/overlays/pause_overlay.tscn" id="3_8o178"]
 [ext_resource type="PackedScene" uid="uid://b6fwc08t84ekc" path="res://scenes/room_generation.tscn" id="4_aqaft"]
+[ext_resource type="PackedScene" uid="uid://bx27hutgfw8gx" path="res://ui/overlays/gameover_overlay.tscn" id="4_tk8ru"]
+[ext_resource type="PackedScene" uid="uid://n57wvo3anlh4" path="res://ui/overlays/hud_overlay.tscn" id="5_orssl"]
 
 [node name="IngameScene" type="Node2D"]
 script = ExtResource("1_objyc")
@@ -19,4 +21,16 @@ unique_name_in_owner = true
 process_mode = 2
 visible = false
 
+[node name="GameOverOverlay" parent="UI" instance=ExtResource("4_tk8ru")]
+unique_name_in_owner = true
+process_mode = 2
+visible = false
+
+[node name="HudOverlay" parent="UI" node_paths=PackedStringArray("level") instance=ExtResource("5_orssl")]
+unique_name_in_owner = true
+level = NodePath("../../room_generation")
+
 [node name="room_generation" parent="." instance=ExtResource("4_aqaft")]
+unique_name_in_owner = true
+
+[connection signal="gameover" from="room_generation" to="." method="_on_room_generation_gameover"]

@@ -1,12 +1,15 @@
 extends Node2D
 
+signal gameover
+signal health_changed(health: float)
+
 @export var level:PackedScene
 
 @onready var map = %map
 @onready var levels = %levels
 
-@export var space_ship_length := 7
-@export var space_ship_room_size := 20
+@export var space_ship_length := 5
+@export var space_ship_room_size := 14
 @export var space_ship_room_branch_min_size := 2
 @export var space_ship_room_branch_max_size := 4
 var space_ship_room_all_postions:Array
@@ -180,4 +183,10 @@ func check_for_neighbours(vertical:bool, tile_pos:Vector2) -> bool:
 
 
 
+func on_player_health_changed(health: float) -> void:
+	health_changed.emit(health)
+
+
+func game_over() -> void:
+	gameover.emit()
 

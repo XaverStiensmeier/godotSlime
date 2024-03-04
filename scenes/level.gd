@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func start_level() -> void:
 	## enemy spawning
-	basic_enemy_count = randi_range(1,1)
+	basic_enemy_count = randi_range(1,5)
 	for e in basic_enemy_count:
 		var new_enemy = enemy.instantiate()
 		call_deferred("add_child", new_enemy)
@@ -84,3 +84,5 @@ func _on_door_up_body_entered(body: Node2D) -> void:
 func _on_door_down_body_entered(body: Node2D) -> void:
 	if %door_down.visible and body.is_in_group("player") and doors.visible:
 		door_used(Vector2.DOWN)
+
+
