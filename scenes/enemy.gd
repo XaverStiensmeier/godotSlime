@@ -1,15 +1,12 @@
 extends CharacterBody2D
 
 @export var speed := 100.0
-@export var circle_predictability := 100.0
 @export var attack_timeout := 0.1
-@export var attack_predictability := 100.0
 @export var attack_recharge := 2
 @export var attack_indicator_timer := 0.5
-@export var move_predictability := 100.0
 @export var attack_distance := 40
-@export var circle_min_distance := 80
-@export var circle_max_distance := 120
+@export var circle_min_distance := 100
+@export var circle_max_distance := 140
 @export var change_rotation_timer := 2 ## after change_rotation_timer in seconds, rotation is changed when circling
 @export var damage_per_attack := 25.0
 @export var eat_value := 25.0
@@ -43,37 +40,18 @@ func _physics_process(delta: float) -> void:
 
 
 func state_machine(delta) -> void:
+	new_direction = to_local(nav_agent.get_next_path_position()).normalized()
 	match current_state:
 		STATES.idle:
-			new_direction = Vector2.ZERO
-
+			pass
 		STATES.chase:
-			# new_direction = global_position.direction_to(player.global_position)
-			new_direction = to_local(nav_agent.get_next_path_position()).normalized()
 			if global_position.distance_to(player.global_position) < attack_distance: ## how close to the player for attack
 				current_state = STATES.attack
-
-		STATES.run:
-			new_direction = player.global_position.direction_to(global_position)
-			if attack_ready:
-				current_state = STATES.chase
-
 		STATES.circle:
-			if global_position.distance_to(player.global_position) < circle_min_distance:
-				new_direction = player.global_position.direction_to(global_position)
-			elif global_position.distance_to(player.global_position) > circle_max_distance:
-				new_direction = global_position.direction_to(player.global_position)
-			else:
-				change_rotation += delta * 1/change_rotation_timer
-				if change_rotation >= 1:
-					change_rotation = 0
-					rotate_direction *= -1
-				new_direction = player.global_position.direction_to(global_position).orthogonal()*rotate_direction
 			if attack_ready:
 				current_state = STATES.chase
 
 		STATES.attack:
-			new_direction = Vector2.ZERO
 			if attack_timer.is_stopped(): ## Can call if there is no attack in action
 				attack()
 
@@ -83,8 +61,23 @@ func state_machine(delta) -> void:
 
 
 func makepath() -> void:
-	if player != null:
-		nav_agent.target_position = player.global_position
+	print(global_position)
+	match current_state:
+		STATES.idle or STATES.attack:
+			nav_agent.target_position = Vector2.ZERO
+		STATES.chase:
+			if player != null:
+				nav_agent.target_position = player.global_position
+		STATES.circle:
+			print(global_position.distance_to(player.global_position) < circle_min_distance)
+			nav_agent.target_position = Vector2(100,100)
+			if global_position.distance_to(player.global_position) < circle_min_distance:
+				nav_agent.target_position = global_position + player.global_position.direction_to(global_position)*100
+			elif global_position.distance_to(player.global_position) > circle_max_distance:
+				nav_agent.target_position = global_position + global_position.direction_to(player.global_position)*100
+			else:
+				nav_agent.target_position = global_position
+				# player.global_position.direction_to(global_position).orthogonal()*rotate_direction
 
 
 func try_to_eat() -> float:
