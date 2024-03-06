@@ -18,7 +18,7 @@ extends CharacterBody2D
 @onready var attack_polygon: Polygon2D = %Attack_polygon
 @onready var aim_polygon: Polygon2D = %Aim_polygon
 @onready var attack_recharge_timer: Timer = %Attack_recharge_timer
-
+@onready var nav_agent := %NavigationAgent2D as NavigationAgent2D
 
 var player: Node2D
 var direction:Vector2 ## Normalized moving direction
@@ -38,7 +38,7 @@ enum STATES {
 	attack
 }
 
-func _physics_process(delta) -> void:
+func _physics_process(delta: float) -> void:
 	state_machine(delta)
 
 
@@ -48,7 +48,8 @@ func state_machine(delta) -> void:
 			new_direction = Vector2.ZERO
 
 		STATES.chase:
-			new_direction = global_position.direction_to(player.global_position)
+			# new_direction = global_position.direction_to(player.global_position)
+			new_direction = to_local(nav_agent.get_next_path_position()).normalized()
 			if global_position.distance_to(player.global_position) < attack_distance: ## how close to the player for attack
 				current_state = STATES.attack
 
@@ -79,6 +80,11 @@ func state_machine(delta) -> void:
 	direction = direction.lerp(new_direction,0.1)
 	velocity = direction * speed
 	move_and_slide()
+
+
+func makepath() -> void:
+	if player != null:
+		nav_agent.target_position = player.global_position
 
 
 func try_to_eat() -> float:
@@ -122,3 +128,7 @@ func _on_attack_timer_timeout() -> void:
 
 func _on_attack_recharge_timeout() -> void:
 	attack_ready = true
+
+
+func _on_timer_timeout():
+	makepath()
