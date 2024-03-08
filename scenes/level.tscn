@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://yl2jqtx0lwlt"]
+[gd_scene load_steps=13 format=3 uid="uid://yl2jqtx0lwlt"]
 
 [ext_resource type="Script" path="res://scenes/level.gd" id="1_xqd7o"]
 [ext_resource type="PackedScene" uid="uid://bf15i23tr2jy4" path="res://scenes/enemy.tscn" id="2_b66pv"]
+[ext_resource type="PackedScene" uid="uid://vdajl88biclw" path="res://scenes/ranged_enemy.tscn" id="3_2xhuo"]
 [ext_resource type="PackedScene" uid="uid://dhr1crxit066" path="res://scenes/player.tscn" id="3_3kj0a"]
 [ext_resource type="Texture2D" uid="uid://dilxxpdta70sj" path="res://assets/tilemap/floor.png" id="4_j5x8e"]
 
@@ -46,6 +47,7 @@ size = Vector2(110, 20)
 [node name="level" type="Node2D"]
 script = ExtResource("1_xqd7o")
 enemy = ExtResource("2_b66pv")
+ranged_enemy = ExtResource("3_2xhuo")
 player = ExtResource("3_3kj0a")
 
 [node name="TileMap" type="TileMap" parent="."]
