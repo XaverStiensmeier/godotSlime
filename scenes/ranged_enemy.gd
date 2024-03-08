@@ -4,7 +4,7 @@ extends CharacterBody2D
 @export var bullet_speed := 75.0
 @export var eat_value := 25.0
 @export var shoot_distance := 300
-@export var damage_per_attack := 30.0
+@export var damage_per_attack := 15
 
 @onready var bullet_timer: Timer = %Bullet_timer
 @onready var bullet: CharacterBody2D = %Bullet
@@ -46,7 +46,7 @@ func state_machine(delta) -> void:
 	direction = direction.lerp(new_direction,0.1)
 	velocity = direction * speed
 	move_and_slide()
-			
+
 func try_to_eat() -> float:
 	# If enemy is currently not chasing or in attack state, the player can eat the enemy (enemy is removed from the game)
 	# and we return the eat_value of the enemy to the player
@@ -65,7 +65,7 @@ func shoot() -> void:
 
 	bullet.rotation = bullet.global_position.direction_to(player.global_position).angle()
 	bullet.velocity = shoot_velocity
-	
+
 	bullet.show()
 	bullet.move_and_slide()
 	current_state = STATES.wandering
@@ -80,3 +80,9 @@ func _on_attack_timer_timeout() -> void:
 	bullet.hide()
 	current_state = STATES.shoot
 	bullet.global_position = global_position
+
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("player") and player != null:
+		bullet.hide()
+		player.health -= damage_per_attack

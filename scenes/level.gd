@@ -57,7 +57,7 @@ func set_player():
 	else:
 		active_player.global_position = Vector2(290,157)
 
-func open_doors(doors_to_open:Array, manager:Node2D) -> void: ## 0 = left, 1 = right, 2 = up, 3 = down 
+func open_doors(doors_to_open:Array, manager:Node2D) -> void: ## 0 = left, 1 = right, 2 = up, 3 = down
 	for door in doors.get_child_count():
 		if doors_to_open.has(door):
 			doors.get_child(door).show()

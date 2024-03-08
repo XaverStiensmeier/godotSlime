@@ -83,3 +83,4 @@ func _on_eat_detection_area_2d_body_entered(body: Node2D) -> void:
 	# TODO: Consume powerups / consumables
 	#if body.has_method("try_to_consume"):
 
+
