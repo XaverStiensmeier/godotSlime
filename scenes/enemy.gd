@@ -76,8 +76,7 @@ func makepath() -> void:
 			elif global_position.distance_to(player.global_position) > circle_max_distance:
 				nav_agent.target_position = global_position + global_position.direction_to(player.global_position)*100
 			else:
-				nav_agent.target_position = global_position
-				# player.global_position.direction_to(global_position).orthogonal()*rotate_direction
+				nav_agent.target_position = global_position + player.global_position.direction_to(global_position).orthogonal()*rotate_direction*10
 
 
 func try_to_eat() -> float:
