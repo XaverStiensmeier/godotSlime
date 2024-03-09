@@ -18,6 +18,7 @@ config/icon="res://assets/icon.svg"
 [autoload]
 
 UserSettings="*res://settings/user_settings.gd"
+SignalManager="*res://scripts/autoload/signal_manager.gd"
 
 [display]
 

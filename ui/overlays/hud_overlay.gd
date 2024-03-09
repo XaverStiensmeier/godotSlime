@@ -6,7 +6,7 @@ extends MarginContainer
 @onready var health_label:= %HealthLabel
 
 func _ready() -> void:
-	level.health_changed.connect(_update_health_label)
+	SignalManager.health_changed.connect(_update_health_label)
 
 
 func _update_health_label(health) -> void:

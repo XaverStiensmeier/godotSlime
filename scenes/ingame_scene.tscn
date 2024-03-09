@@ -32,5 +32,3 @@ level = NodePath("../../room_generation")
 
 [node name="room_generation" parent="." instance=ExtResource("4_aqaft")]
 unique_name_in_owner = true
-
-[connection signal="gameover" from="room_generation" to="." method="_on_room_generation_gameover"]

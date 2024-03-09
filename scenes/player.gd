@@ -31,7 +31,7 @@ var health : float :
 			health = clamp(value, 0, max_health)
 
 			## Update health label @experimental TODO
-			get_parent().get_parent().get_parent().health_changed.emit(health)
+			SignalManager.health_changed.emit(health)
 
 			# Update sprite frame
 			update_player_sprite()
@@ -39,7 +39,7 @@ var health : float :
 			printt("Player health:", str(health) + "/" + str(max_health))  # TODO remove
 
 			if health <= 0:
-				get_parent().game_over()
+				SignalManager.game_over.emit()
 
 
 func _ready() -> void:
