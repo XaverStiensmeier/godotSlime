@@ -35,6 +35,9 @@ var health : float :
 
 			# Update sprite frame
 			update_player_sprite()
+			
+			# Update player speed
+			update_player_speed()
 
 			printt("Player health:", str(health) + "/" + str(max_health))  # TODO remove
 
@@ -75,6 +78,22 @@ func update_player_sprite() -> void:
 	frameIndex = clamp(frameIndex, 0, player_sprite.hframes - 1)
 
 	player_sprite.frame = frameIndex
+	
+func update_player_speed() -> void:
+
+	var health_percentage = (health - 25.0) / max_health
+	printt("Percentage:", str(health_percentage))
+	
+	if (health_percentage <= 0.25):
+		speed = 200
+	elif (health_percentage <= 0.5):
+		speed = 170
+	elif (health_percentage <= 0.75):
+		speed = 140
+	elif (health_percentage <= 1.0):
+		speed = 110
+		
+	printt("Speed:", str(speed))
 
 
 func _on_eat_detection_area_2d_body_entered(body: Node2D) -> void:
