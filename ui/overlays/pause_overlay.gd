@@ -1,8 +1,5 @@
 extends CenterContainer
 
-signal game_exited
-signal resume
-
 @onready var resume_button := %ResumeButton
 @onready var settings_button := %SettingsButton
 @onready var exit_button := %ExitButton
@@ -20,7 +17,7 @@ func grab_button_focus() -> void:
 	resume_button.grab_focus()
 	
 func _resume() -> void:
-	resume.emit()
+	SignalManager.resume.emit()
 	visible = false
 	
 	
@@ -30,7 +27,7 @@ func _settings() -> void:
 	back_button.grab_focus()
 	
 func _exit() -> void:
-	game_exited.emit()
+	SignalManager.game_exited.emit()
 	get_tree().quit()
 	
 func _pause_menu() -> void:

@@ -1,6 +1,7 @@
 extends Node2D
 
 @export var enemy: PackedScene
+@export var ranged_enemy: PackedScene #added ranged enemy
 @export var player: PackedScene
 
 @onready var doors: Marker2D = %doors
@@ -8,6 +9,7 @@ extends Node2D
 var active_player:CharacterBody2D
 var room_manager
 var basic_enemy_count: int = 3
+var basic_ranged_enemy_count: int = 2
 var all_enemies: Array
 
 
@@ -24,6 +26,11 @@ func start_level() -> void:
 		call_deferred("add_child", new_enemy)
 		new_enemy.global_position = Vector2(randi_range(50,526),randi_range(50,274))
 		all_enemies.append(new_enemy)
+	for e in basic_ranged_enemy_count:
+		var new_ranged_enemy = ranged_enemy.instantiate()
+		call_deferred("add_child", new_ranged_enemy)
+		new_ranged_enemy.global_position = Vector2(randi_range(50,526),randi_range(50,274))
+		all_enemies.append(new_ranged_enemy)
 	## player spawn
 	set_player()
 

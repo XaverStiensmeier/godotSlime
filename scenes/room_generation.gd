@@ -1,8 +1,5 @@
 extends Node2D
 
-signal gameover
-signal health_changed(health: float)
-
 @export var level:PackedScene
 
 @onready var map = %map
@@ -180,13 +177,4 @@ func check_for_neighbours(vertical:bool, tile_pos:Vector2) -> bool:
 			return false
 		return true
 	return true
-
-
-
-func on_player_health_changed(health: float) -> void:
-	health_changed.emit(health)
-
-
-func game_over() -> void:
-	gameover.emit()
 

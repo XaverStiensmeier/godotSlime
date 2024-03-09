@@ -1,10 +1,6 @@
 extends CenterContainer
 
 
-signal game_exited
-signal try_again
-
-
 @onready var try_again_button := %TryAgainButton
 @onready var exit_button := %ExitButton
 @onready var menu_container := %MenuContainer
@@ -22,11 +18,11 @@ func grab_button_focus() -> void:
 func _try_again() -> void:
 	get_tree().paused = false
 	visible = false
-	try_again.emit()
+	SignalManager.try_again.emit()
 	
 	
 func _exit() -> void:
-	game_exited.emit()
+	SignalManager.game_exited.emit()
 	get_tree().quit()
 
 

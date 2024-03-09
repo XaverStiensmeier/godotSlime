@@ -12,10 +12,10 @@ func _ready() -> void:
 	if SaveGame.has_save():
 		SaveGame.load_game(get_tree())
 
-	pause_overlay.game_exited.connect(_save_game)
-	pause_overlay.resume.connect(_resume_game)
-	level.gameover.connect(_game_over)
-	game_over_overlay.try_again.connect(_try_again)
+	SignalManager.game_exited.connect(_save_game)
+	SignalManager.resume.connect(_resume_game)
+	SignalManager.game_over.connect(_game_over)
+	SignalManager.try_again.connect(_try_again)
 
 func _input(event) -> void:
 	if event.is_action_pressed("pause") and not pause_overlay.visible:
