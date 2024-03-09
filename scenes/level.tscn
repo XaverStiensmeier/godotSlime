@@ -122,9 +122,11 @@ visible = false
 position = Vector2(288, 298)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="doors/door_down"]
+position = Vector2(0, -2)
 shape = SubResource("RectangleShape2D_imc7q")
 
 [node name="Polygon2D" type="Polygon2D" parent="doors/door_down"]
+position = Vector2(0, -2)
 polygon = PackedVector2Array(-55, -10, 55, -10, 55, 10, -55, 10)
 
 [connection signal="body_entered" from="doors/door_left" to="." method="_on_door_left_body_entered"]
