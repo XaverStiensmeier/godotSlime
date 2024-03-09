@@ -16,6 +16,7 @@ extends CharacterBody2D
 @onready var aim_polygon: Polygon2D = %Aim_polygon
 @onready var attack_recharge_timer: Timer = %Attack_recharge_timer
 @onready var nav_agent := %NavigationAgent2D as NavigationAgent2D
+@onready var navigation_timer: Timer = %NavigationTimer
 
 var player: Node2D
 var direction:Vector2 ## Normalized moving direction
@@ -61,15 +62,13 @@ func state_machine(delta) -> void:
 
 
 func makepath() -> void:
-	print(global_position)
 	match current_state:
 		STATES.idle or STATES.attack:
 			nav_agent.target_position = Vector2.ZERO
 		STATES.chase:
 			if player != null:
-				nav_agent.target_position = player.global_position
+				nav_agent.target_position = player.global_position - global_position.direction_to(player.global_position)*attack_distance*0.7
 		STATES.circle:
-			print(global_position.distance_to(player.global_position) < circle_min_distance)
 			nav_agent.target_position = Vector2(100,100)
 			if global_position.distance_to(player.global_position) < circle_min_distance:
 				nav_agent.target_position = global_position + player.global_position.direction_to(global_position)*100
@@ -123,4 +122,8 @@ func _on_attack_recharge_timeout() -> void:
 
 
 func _on_timer_timeout():
+	var rand_value = rng.randf()
+	printt(rand_value, navigation_timer.wait_time)
+	if rand_value < navigation_timer.wait_time:
+		rotate_direction*=-1
 	makepath()
