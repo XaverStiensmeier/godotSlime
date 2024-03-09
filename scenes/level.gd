@@ -29,6 +29,7 @@ func start_level() -> void:
 		all_enemies.append(new_enemy)
 	for e in basic_ranged_enemy_count:
 		var new_ranged_enemy = ranged_enemy.instantiate()
+		new_ranged_enemy.connect("laser_shot", _on_laser_shot)
 		call_deferred("add_child", new_ranged_enemy)
 		new_ranged_enemy.global_position = Vector2(randi_range(50,526),randi_range(50,274))
 		all_enemies.append(new_ranged_enemy)
@@ -55,13 +56,11 @@ func set_player():
 		active_player = player.instantiate()
 		add_child(active_player)
 		active_player.global_position = Vector2(290,157)
-		print("Connected")
-		active_player.connect("laser_shot", _on_player_laser_shot)
 	else:
 		active_player.global_position = Vector2(290,157)
 
 
-func _on_player_laser_shot(laser):
+func _on_laser_shot(laser):
 	print("Laser shot")
 	lasers.add_child(laser)
 
