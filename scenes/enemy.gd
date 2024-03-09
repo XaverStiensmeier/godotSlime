@@ -1,4 +1,5 @@
 extends CharacterBody2D
+class_name enemy
 
 @export var speed := 100.0
 @export var attack_timeout := 0.1
@@ -51,7 +52,6 @@ func state_machine(delta) -> void:
 		STATES.circle:
 			if attack_ready:
 				current_state = STATES.chase
-
 		STATES.attack:
 			if attack_timer.is_stopped(): ## Can call if there is no attack in action
 				attack()
@@ -121,9 +121,8 @@ func _on_attack_recharge_timeout() -> void:
 	attack_ready = true
 
 
-func _on_timer_timeout():
+func _on_timer_timeout() -> void:
 	var rand_value = rng.randf()
-	printt(rand_value, navigation_timer.wait_time)
 	if rand_value < navigation_timer.wait_time:
 		rotate_direction*=-1
 	makepath()

@@ -94,6 +94,13 @@ map={
 
 locale/translations=PackedStringArray("res://i18n/translation.de.translation", "res://i18n/translation.en.translation")
 
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="Enemies"
+2d_physics/layer_7="Projectiles"
+2d_physics/layer_8="Walls"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

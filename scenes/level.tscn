@@ -127,6 +127,8 @@ shape = SubResource("RectangleShape2D_imc7q")
 [node name="Polygon2D" type="Polygon2D" parent="doors/door_down"]
 polygon = PackedVector2Array(-55, -10, 55, -10, 55, 10, -55, 10)
 
+[node name="Lasers" type="Node" parent="."]
+
 [connection signal="body_entered" from="doors/door_left" to="." method="_on_door_left_body_entered"]
 [connection signal="body_entered" from="doors/door_right" to="." method="_on_door_right_body_entered"]
 [connection signal="body_entered" from="doors/door_up" to="." method="_on_door_up_body_entered"]

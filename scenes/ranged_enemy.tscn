@@ -1,15 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://vdajl88biclw"]
+[gd_scene load_steps=4 format=3 uid="uid://vdajl88biclw"]
 
 [ext_resource type="Script" path="res://scenes/ranged_enemy.gd" id="1_77anf"]
-[ext_resource type="Script" path="res://scenes/Bullet.gd" id="2_v7yud"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_xeury"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vga0b"]
 radius = 183.068
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jvx5c"]
-size = Vector2(10, 10)
 
 [node name="Basic_Ranged_enemy" type="CharacterBody2D"]
 collision_layer = 130
@@ -41,35 +37,24 @@ unique_name_in_owner = true
 wait_time = 0.5
 one_shot = true
 
-[node name="Bullet" type="CharacterBody2D" parent="." groups=["projectile"]]
+[node name="Attack_timer" type="Timer" parent="Marker2D"]
 unique_name_in_owner = true
-collision_layer = 0
-collision_mask = 0
-script = ExtResource("2_v7yud")
+wait_time = 0.5
+one_shot = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet"]
-position = Vector2(3, 4)
-scale = Vector2(0.2, 0.2)
-shape = SubResource("RectangleShape2D_jvx5c")
+[node name="Attack_recharge_timer" type="Timer" parent="Marker2D"]
+unique_name_in_owner = true
 
-[node name="ColorRect" type="ColorRect" parent="Bullet"]
-offset_left = 2.0
-offset_top = 3.0
-offset_right = 12.0
-offset_bottom = 13.0
-scale = Vector2(0.2, 0.2)
-color = Color(0.054902, 0.262745, 0.792157, 1)
-metadata/_edit_use_anchors_ = true
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+unique_name_in_owner = true
+navigation_layers = 3
+debug_enabled = true
 
-[node name="Area2D" type="Area2D" parent="Bullet"]
-collision_layer = 0
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Bullet/Area2D"]
-position = Vector2(3, 4)
-scale = Vector2(0.2, 0.2)
-shape = SubResource("RectangleShape2D_jvx5c")
+[node name="NavigationTimer" type="Timer" parent="."]
+unique_name_in_owner = true
+wait_time = 0.1
+autostart = true
 
 [connection signal="body_entered" from="Player_detection" to="." method="_on_player_detection_body_entered"]
 [connection signal="body_exited" from="Player_detection" to="." method="_on_player_detection_body_exited"]
-[connection signal="timeout" from="Marker2D/Bullet_timer" to="." method="_on_attack_timer_timeout"]
-[connection signal="body_entered" from="Bullet/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Marker2D/Attack_timer" to="." method="_on_attack_timer_timeout"]

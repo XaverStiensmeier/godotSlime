@@ -27,7 +27,7 @@ func _ready() -> void:
 		new_branch.append(Vector2(main_branch,0))
 		space_ship_room_size -=1
 	space_ship_horizontal_room_branches.append(new_branch)
-	
+
 	## vertical and horizontal branches one can only spawn on the other
 	var is_vertical:bool = true
 	while space_ship_room_size > 0:
@@ -44,8 +44,8 @@ func _ready() -> void:
 		else:
 			map.add_map_tile(b)
 	generate_level()
-	
-	
+
+
 func generate_level() -> void:
 ## removes level from scene. it is already saved
 	if current_level != null:
@@ -67,12 +67,12 @@ func generate_level() -> void:
 		for door in doors_available.size():
 			if space_ship_room_all_postions.has(player_position+doors_available[door]):
 				doors.append(door)
-		new_level.call_deferred("open_doors",doors, self) ## shows correct doors when finihing level, also starts level 
+		new_level.call_deferred("open_doors",doors, self) ## shows correct doors when finihing level, also starts level
 		map.show_player_on_map(space_ship_room_all_postions, player_position) ## new position on map
-		
+
 		## not yet completed, it's set in advanced
 		completed_levels[player_position] = new_level
-		
+
 		current_level = completed_levels[player_position]
 
 func new_player_position(new_pos:Vector2) -> void:
@@ -98,7 +98,7 @@ func generate_vertical_branches(length:int) -> void:
 		error_proof+=1
 		if error_proof > 30:
 			push_error("no place for horizontal, make some changes in branch sizes")
-			return 
+			return
 
 ## how long the branch will be
 	for branch in length:
@@ -107,7 +107,7 @@ func generate_vertical_branches(length:int) -> void:
 			space_ship_room_size -=1
 		start_branch_postion += Vector2.UP
 
-## ofsets the branch 
+## ofsets the branch
 	var branch_repositin:int = randi_range(0, new_branch.size())
 	for repo in branch_repositin:
 		if check_for_neighbours(true, new_branch[0] + (Vector2.DOWN*2)+Vector2.DOWN*repo):
@@ -129,7 +129,7 @@ func generate_horizontal_branches(length:int) -> void:
 	space_ship_vertical_room_branches[random_branch][randi_range(0,space_ship_vertical_room_branches[random_branch].size()-1)]
 	start_branch_postion += Vector2.LEFT
 	var new_branch:Array
-	
+
 	var error_proof:int ## after 30 loops go back
 	while !check_for_neighbours(false, start_branch_postion):
 		random_branch = randi_range(0,space_ship_vertical_room_branches.size()-1)
@@ -139,14 +139,14 @@ func generate_horizontal_branches(length:int) -> void:
 		error_proof +=1
 		if error_proof > 30:
 			push_error("no place for horizontal, make some changes in branch sizes")
-			return 
+			return
 
 	for branch in length:
 		if !space_ship_room_all_postions.has(start_branch_postion): ## no duplicates
 			new_branch.append(start_branch_postion)
 			space_ship_room_size -=1
 		start_branch_postion += Vector2.LEFT
-	
+
 	var branch_repositin:int = randi_range(0, new_branch.size())
 	for repo in branch_repositin:
 		if check_for_neighbours(false, new_branch[0] + (Vector2.RIGHT*2)+Vector2.RIGHT*repo):

@@ -5,11 +5,12 @@ extends Node2D
 @export var player: PackedScene
 
 @onready var doors: Marker2D = %doors
+@onready var lasers = $Lasers
 
 var active_player:CharacterBody2D
 var room_manager
-var basic_enemy_count: int = 3
-var basic_ranged_enemy_count: int = 2
+var basic_enemy_count: int = 3 # 3
+var basic_ranged_enemy_count: int = 1 # 2
 var all_enemies: Array
 
 
@@ -20,7 +21,7 @@ func _ready() -> void:
 
 func start_level() -> void:
 	## enemy spawning
-	basic_enemy_count = randi_range(1,5)
+	basic_enemy_count = 0 # randi_range(1,5)
 	for e in basic_enemy_count:
 		var new_enemy = enemy.instantiate()
 		call_deferred("add_child", new_enemy)
@@ -54,8 +55,16 @@ func set_player():
 		active_player = player.instantiate()
 		add_child(active_player)
 		active_player.global_position = Vector2(290,157)
+		print("Connected")
+		active_player.connect("laser_shot", _on_player_laser_shot)
 	else:
 		active_player.global_position = Vector2(290,157)
+
+
+func _on_player_laser_shot(laser):
+	print("Laser shot")
+	lasers.add_child(laser)
+
 
 func open_doors(doors_to_open:Array, manager:Node2D) -> void: ## 0 = left, 1 = right, 2 = up, 3 = down
 	for door in doors.get_child_count():
