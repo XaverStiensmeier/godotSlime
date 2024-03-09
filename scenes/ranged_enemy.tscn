@@ -43,7 +43,6 @@ one_shot = true
 
 [node name="Bullet" type="CharacterBody2D" parent="." groups=["projectile"]]
 unique_name_in_owner = true
-visible = false
 collision_layer = 0
 collision_mask = 0
 script = ExtResource("2_v7yud")

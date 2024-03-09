@@ -50,7 +50,7 @@ func state_machine(delta) -> void:
 func try_to_eat() -> float:
 	# If enemy is currently not chasing or in attack state, the player can eat the enemy (enemy is removed from the game)
 	# and we return the eat_value of the enemy to the player
-	if current_state not in [STATES.shoot]:
+	if true or current_state not in [STATES.shoot]: # TODO find a better way and remove true
 		queue_free()
 		get_parent().delete_me(self)
 		return eat_value
@@ -69,7 +69,7 @@ func shoot() -> void:
 	bullet.show()
 	bullet.move_and_slide()
 	current_state = STATES.wandering
-	bullet_timer.start(3)
+	bullet_timer.start(2)
 
 func _on_player_detection_body_entered(body: Node2D) -> void:
 	if body.is_in_group("player") and player == null:
