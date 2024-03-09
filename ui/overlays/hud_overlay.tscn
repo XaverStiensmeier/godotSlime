@@ -1,23 +1,11 @@
 [gd_scene load_steps=2 format=3 uid="uid://n57wvo3anlh4"]
 
-[ext_resource type="Script" path="res://ui/overlays/hud_overlay.gd" id="1_x2rkx"]
+[ext_resource type="PackedScene" uid="uid://b742nsn78ablm" path="res://ui/components/healthbar.tscn" id="2_ewm7a"]
 
-[node name="HudOverlay" type="MarginContainer"]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 0
-theme_override_constants/margin_left = 5
-theme_override_constants/margin_top = 2
-script = ExtResource("1_x2rkx")
+[node name="HudOverlay" type="CanvasLayer"]
 
-[node name="HealthLabel" type="Label" parent="."]
-unique_name_in_owner = true
-layout_mode = 2
-size_flags_horizontal = 0
-size_flags_vertical = 0
-theme_type_variation = &"HeaderLarge"
-text = "health"
-horizontal_alignment = 1
+[node name="Healthbar" parent="." instance=ExtResource("2_ewm7a")]
+offset_left = 12.0
+offset_top = 12.0
+offset_right = 132.0
+offset_bottom = 24.0
